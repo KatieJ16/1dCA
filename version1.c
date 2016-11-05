@@ -17,8 +17,12 @@ int update(int *cells, int num_cells) {
 
     /* Fill in the reset of the next generation by the given pattern. */    
     for(i = 1; i < num_cells; i ++){
-        if(cells[i - 1] == 0) {
-            temp[i] = 1;
+        if(cells[i] == 0) {
+            if((cells[i - 1] == 1) & (cells[i + 1] == 0)){
+                temp[i] = 1;
+            } else if((cells[i -1] == 0) & (cells[i + 1] == 1)) {
+                temp[i] = 1;
+            }
         } else {
             temp[i] = 0;
         }
