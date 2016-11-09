@@ -1,22 +1,33 @@
 #
-# CS 11: Makefile for C track, assignment 3.
+# CS 11: Makefile for C track, assignment 4.
 #
 
 CC     = gcc
 CFLAGS = -g -Wall -Wstrict-prototypes -ansi -pedantic
 
-sorter: version1.o
-	$(CC) version1.o -o version1
+version1: version1.o memcheck.o
+	$(CC) version1.o memcheck.o -o version1
 
-sorter.o: version1.c
+version2: version2.o memcheck.o
+	$(CC) version2.o memcheck.o -o version2
+
+memcheck.o: memcheck.c memcheck.h
+	$(CC) $(CFLAGS) -c memcheck.c
+
+version1.o: memcheck.c memcheck.h
 	$(CC) $(CFLAGS) -c version1.c
 
+version2.o: version2.c memcheck.h
+	$(CC) $(CFLAGS) -c version2.c
+
 test:
-	./run_test
+	./triangle_game < test_input | more
 
 check:
 	c_style_check version1.c
 
 clean:
-	rm -f version1 *.o
+	rm -f *.o version1 version2
+
+
 
