@@ -4,10 +4,10 @@
 #include <assert.h>
 #include <time.h>
 
-int update(int *cells, int num_cells);
+int * update(int *cells, int num_cells);
 int print_row(int *cells, int num_cells);
 
-int update(int *cells, int num_cells) {
+int * update(int *cells, int num_cells) {
     int i;
     int *temp;
     temp = (int *)malloc(num_cells * sizeof(int));
@@ -27,6 +27,7 @@ int update(int *cells, int num_cells) {
             temp[i] = 0;
         }
     }
+
     return temp;
     print_row(temp, num_cells);
     return 0;
