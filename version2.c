@@ -5,14 +5,14 @@
 #include <assert.h>
 #include <time.h>
 
-int update(int *cells, int num_cells);
+int * update(int *cells, int num_cells);
 int print_row(int *cells, int num_cells);
 
-int update(int *cells, int num_cells) {
+int * update(int *cells, int num_cells) {
     int i;
     int *temp;
-    int *cell_before = cells;
-    int *cell_after = cells;
+    /*int *cell_before = cells;
+    int *cell_after = cells;*/
     temp = (int *) malloc(num_cells * sizeof(int));
    /* cell_before = (int *) malloc((num_cells - 1) * sizeof(int));
     cells_after = (int *) malloc((num_cells - 1) * sizeof(int));
@@ -23,29 +23,40 @@ int update(int *cells, int num_cells) {
     temp ++;
 
     /* Set cells, cell_before, and cell_after to the right starting numbers. */
-    cells += 2;
-    cell_after ++;
+    cells ++;
+    /*cell_after += 2;*/
 
 
     /* Fill in the reset of the next generation by the given pattern. */    
-    for(i = 1; i < num_cells; i ++){
+    for(i = 0; i < num_cells - 2; i ++){
         if(*cells == 0) {
-            if((*cell_before == 1) & (*cell_after == 0)){
-                *temp = 1;
-            } else if((*cell_before == 0) & (*cell_after == 1)) {
-                *temp = 1;
+           /* assert(cells[i + 1] == 0);*/
+            printf("empty    ");
+            if((*(cells - 1) == 1) & (*(cells + 1) == 0)) {
+                    printf("yes    ");    
+                    temp[i] = 1;
+            } 
+            if (((*cells - 1) == 0) & (*(cells + 1) == 1)) {
+                printf("yes    ");
+                temp[i] = 1;
             }
-        } else {
-            *temp = 0;
-        }
+            /*} else {
+                printf("both full    ");
+                temp[i] = 0;
+            }*/
+        } /*else {
+            printf("not empty    ");
+            temp[i] = 0;
+        }*/
 
         /* Increment all pointers. */
-        temp ++;
+/*        temp ++;*/
         cells ++;
-        cell_before ++;
-        cell_after ++;
+     /*   cell_before ++;
+        cell_after ++;*/
     }
-    /*free(temp);*/
+/*    free(temp);
+   */ 
     return temp;
 }
 
@@ -53,14 +64,20 @@ int print_row(int *cells, int num_cells) {
     int i = 0;
     /* Print */
     for(i = 0; i < num_cells; i ++) {
-        if(*cells == 0) {
+        if(cells[i] == 0) {
+            printf(".");
+        } else {
+            printf("*");
+        }
+    }
+/*        if(*cells == 0) {
             printf(".");
         } else {
             printf("*");
         }
 
         cells ++;
-    }
+    }*/
     printf("\n");
     return 0;
 }
