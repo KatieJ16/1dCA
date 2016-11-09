@@ -14,7 +14,7 @@ version2: version2.o memcheck.o
 memcheck.o: memcheck.c memcheck.h
 	$(CC) $(CFLAGS) -c memcheck.c
 
-version1.o: memcheck.c memcheck.h
+version1.o: version1.c memcheck.h
 	$(CC) $(CFLAGS) -c version1.c
 
 version2.o: version2.c memcheck.h
