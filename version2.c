@@ -11,53 +11,42 @@ int print_row(int *cells, int num_cells);
 int * update(int *cells, int num_cells) {
     int i;
     int *temp;
-    /*int *cell_before = cells;
-    int *cell_after = cells;*/
-    temp = (int *) malloc(num_cells * sizeof(int));
-   /* cell_before = (int *) malloc((num_cells - 1) * sizeof(int));
-    cells_after = (int *) malloc((num_cells - 1) * sizeof(int));
-*/
+    temp = (int *) calloc(num_cells, sizeof(int));
 
     /* Make first cell random*/
     *temp = rand() % 2;
     temp ++;
 
-    /* Set cells, cell_before, and cell_after to the right starting numbers. */
     cells ++;
-    /*cell_after += 2;*/
-
 
     /* Fill in the reset of the next generation by the given pattern. */    
-    for(i = 0; i < num_cells - 2; i ++){
+    for(i = 1; i < num_cells; i ++){
+       /* printf("i = %d\n", i);*/
         if(*cells == 0) {
-           /* assert(cells[i + 1] == 0);*/
-            printf("empty    ");
-            if((*(cells - 1) == 1) & (*(cells + 1) == 0)) {
-                    printf("yes    ");    
-                    temp[i] = 1;
-            } 
-            if (((*cells - 1) == 0) & (*(cells + 1) == 1)) {
-                printf("yes    ");
+           /* printf("   empty\n");
+            printf("*cells - 1 = %d\n", *(cells - 1));
+            printf("*cells + 1= %d\n", *(cells + 1));*/
+            if((*(cells - 1) == 1) & (*(cells + 1) == 0)){
+               /* printf("left full \n");*/
                 temp[i] = 1;
-            }
-            /*} else {
-                printf("both full    ");
+            } else if((*(cells - 1) == 0) & (*(cells + 1) == 1)) {
+                /*printf("right full\n");*/
+                temp[i] = 1;
+            } else {
+               /* printf("both or neither\n");*/
                 temp[i] = 0;
-            }*/
-        } /*else {
-            printf("not empty    ");
+            }
+        } else {
             temp[i] = 0;
-        }*/
-
-        /* Increment all pointers. */
-/*        temp ++;*/
+        }
+        /*printf("temp[%d] = %d\n\n", i, temp[i]);*/
         cells ++;
-     /*   cell_before ++;
-        cell_after ++;*/
+        /*temp ++;*/
     }
-/*    free(temp);
-   */ 
+
     return temp;
+    print_row(temp, num_cells);
+    return 0;
 }
 
 int print_row(int *cells, int num_cells) {
@@ -70,14 +59,6 @@ int print_row(int *cells, int num_cells) {
             printf("*");
         }
     }
-/*        if(*cells == 0) {
-            printf(".");
-        } else {
-            printf("*");
-        }
-
-        cells ++;
-    }*/
     printf("\n");
     return 0;
 }
@@ -102,7 +83,7 @@ int main(int argc, char *argv[]) {
     printf("cells = %d, generations = %d\n", num_cells, num_generations);
 
     /* Allocate memory for num_cell ints. */
-    cells = (int *)malloc(num_cells * sizeof(int));
+    cells = (int *) calloc(num_cells, sizeof(int));
 
     /* Intialize random number generator. */
     srand(time(NULL));
