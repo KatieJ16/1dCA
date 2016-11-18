@@ -1,3 +1,5 @@
+/* One-dimensional cellular automata */
+ 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,18 +10,24 @@
 int * update(int *cells, int num_cells);
 int print_row(int *cells, int num_cells);
 
+/* Updates a row. 
+ * Arguments is a pointer to an array of integers 
+ * and the number of cells in the array.
+ * Return value is a pointer to an array of the new row.
+ */
+
 int * update(int *cells, int num_cells) {
     int i;
     int *temp;
     temp = (int *)malloc(num_cells * sizeof(int));
 
-    /* Make first cell random*/
+    /* Make first cell random */
     temp[0] = rand() % 2;
 
     /* Fill in the reset of the next generation by the given pattern. */    
-    for(i = 1; i < num_cells; i ++){
+    for(i = 1; i < num_cells; i ++) {
         if(cells[i] == 0) {
-            if((cells[i - 1] == 1) & (cells[i + 1] == 0)){
+            if((cells[i - 1] == 1) & (cells[i + 1] == 0)) {
                 temp[i] = 1;
             } else if((cells[i -1] == 0) & (cells[i + 1] == 1)) {
                 temp[i] = 1;
@@ -30,9 +38,11 @@ int * update(int *cells, int num_cells) {
     }
 
     return temp;
-    print_row(temp, num_cells);
-    return 0;
 }
+
+/* Prints a row as "*" or ".".
+ * Arguments are a pointer to an array of integers and the number of cells.
+ */
 
 int print_row(int *cells, int num_cells) {
     int i = 0;
@@ -53,19 +63,18 @@ int main(int argc, char *argv[]) {
     int num_generations;
     int *cells;
     int i = 0;
-    /*time_t t;*/
 
     /* Get inpupt from command line. */
     if(!(argc == 3)) {
-        /*incorrect number of elements. Must throw error. */
-        fprintf(stderr, "usage: %s should have 2 arguments; the number cells and the number of generations.\n", argv[0]);
+        /* incorrect number of elements. Must throw error. */
+        fprintf(stderr, "usage: %s should have 2 arguments; \
+                the number cells and the number of generations.\n", argv[0]);
         exit(1);
     }
 
+    /* Get input from command line. */
     num_cells = atoi(argv[1]);
     num_generations = atoi(argv[2]);
-
-    printf("cells = %d, generations = %d\n", num_cells, num_generations);
 
     /* Allocate memory for num_cell ints. */
     cells = (int *)malloc(num_cells * sizeof(int));
@@ -74,7 +83,7 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));
 
     /* Fill cells with 0 or 1 */
-    /*First and last cells are 0. */
+    /* First and last cells are 0. */
     cells[0] = 0;
     cells[num_cells - 1] = 0;
 

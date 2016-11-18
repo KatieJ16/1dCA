@@ -1,3 +1,5 @@
+/* One-dimensional cellular automata using pointer arithmetic. */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,46 +10,45 @@
 int * update(int *cells, int num_cells);
 int print_row(int *cells, int num_cells);
 
+/* Updates a row using pointer arithmetic. 
+ * Arguments is a pointer to an array of integers 
+ * and the number of cells in the array.
+ * Return value is a pointer to an array of the new row.
+ */
+
 int * update(int *cells, int num_cells) {
     int i;
     int *temp;
     temp = (int *) calloc(num_cells, sizeof(int));
 
-    /* Make first cell random*/
+    /* Make first cell random. */
     *temp = rand() % 2;
     temp ++;
 
     cells ++;
 
     /* Fill in the reset of the next generation by the given pattern. */    
-    for(i = 1; i < num_cells; i ++){
-       /* printf("i = %d\n", i);*/
+    for(i = 1; i < num_cells; i ++) {
         if(*cells == 0) {
-           /* printf("   empty\n");
-            printf("*cells - 1 = %d\n", *(cells - 1));
-            printf("*cells + 1= %d\n", *(cells + 1));*/
-            if((*(cells - 1) == 1) & (*(cells + 1) == 0)){
-               /* printf("left full \n");*/
+            if((*(cells - 1) == 1) & (*(cells + 1) == 0)) {
                 temp[i] = 1;
             } else if((*(cells - 1) == 0) & (*(cells + 1) == 1)) {
-                /*printf("right full\n");*/
                 temp[i] = 1;
             } else {
-               /* printf("both or neither\n");*/
                 temp[i] = 0;
             }
         } else {
             temp[i] = 0;
         }
-        /*printf("temp[%d] = %d\n\n", i, temp[i]);*/
         cells ++;
-        /*temp ++;*/
     }
 
     return temp;
-    print_row(temp, num_cells);
-    return 0;
 }
+
+/* Prints a row as "*" or ".".
+ * Arguments are a pointer to an array of integers and the number of cells.
+ */
 
 int print_row(int *cells, int num_cells) {
     int i = 0;
@@ -68,19 +69,18 @@ int main(int argc, char *argv[]) {
     int num_generations;
     int *cells;
     int i = 0;
-    /*time_t t;*/
 
     /* Get inpupt from command line. */
     if(!(argc == 3)) {
-        /*incorrect number of elements. Must throw error. */
-        fprintf(stderr, "usage: %s should have 2 arguments; the number cells and the number of generations.\n", argv[0]);
+        /* incorrect number of elements. Must throw error. */
+        fprintf(stderr, "usage: %s should have 2 arguments; \
+                the number cells and the number of generations.\n", argv[0]);
         exit(1);
     }
-
+    
+    /* Get input from command-line. */
     num_cells = atoi(argv[1]);
     num_generations = atoi(argv[2]);
-
-    printf("cells = %d, generations = %d\n", num_cells, num_generations);
 
     /* Allocate memory for num_cell ints. */
     cells = (int *) calloc(num_cells, sizeof(int));
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));
 
     /* Fill cells with 0 or 1 */
-    /*First and last cells are 0. */
+    /* First and last cells are 0. */
     cells[0] = 0;
     cells[num_cells - 1] = 0;
 
@@ -103,6 +103,5 @@ int main(int argc, char *argv[]) {
         print_row(cells, num_cells);
     }
 
-    /*free(cells);*/
     return 0;
 }
