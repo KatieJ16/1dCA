@@ -5,28 +5,28 @@
 CC     = gcc
 CFLAGS = -g -Wall -Wstrict-prototypes -ansi -pedantic
 
-all: version1 version2 
+all: 1dCA_array_version 1dCA_pointer_version
 
-version1: version1.o memcheck.o
-	$(CC) version1.o memcheck.o -o version1
+1dCA_array_version: 1dCA_array_version.o memcheck.o
+	$(CC) 1dCA_array_version.o memcheck.o -o 1dCA_array_version
 
-version2: version2.o memcheck.o
-	$(CC) version2.o memcheck.o -o version2
+1dCA_pointer_version: 1dCA_pointer_version.o memcheck.o
+	$(CC) 1dCA_pointer_version.o memcheck.o -o 1dCA_pointer_version
 
 memcheck.o: memcheck.c memcheck.h
 	$(CC) $(CFLAGS) -c memcheck.c
 
-version1.o: version1.c memcheck.h
-	$(CC) $(CFLAGS) -c version1.c
+1dCA_array_version.o: 1dCA_array_version.c memcheck.h
+	$(CC) $(CFLAGS) -c 1dCA_array_version.c
 
-version2.o: version2.c memcheck.h
-	$(CC) $(CFLAGS) -c version2.c
+1dCA_pointer_version.o: 1dCA_pointer_version.c memcheck.h
+	$(CC) $(CFLAGS) -c 1dCA_pointer_version.c
 
 check:
-	c_style_check version1.c version2.c
+	c_style_check 1dCA_array_version.c 1dCA_pointer_version.c
 
 clean:
-	rm -f *.o version1 version2
+	rm -f *.o 1dCA_array_version 1dCA_pointer_version
 
 
 
