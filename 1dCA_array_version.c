@@ -21,6 +21,12 @@ int * update(int *cells, int num_cells) {
     int *temp;
     temp = (int *)malloc(num_cells * sizeof(int));
 
+    /* Check if malloc failed. */
+    if (temp == NULL) { 
+        fprintf(stderr, "Error: malloc() failed.\n");
+        exit(1);  /* Give up, abort program. */
+    }
+
     /* Make first cell random */
     temp[0] = rand() % 2;
 
@@ -36,6 +42,7 @@ int * update(int *cells, int num_cells) {
             temp[i] = 0;
         }
     }
+
 
     return temp;
 }
@@ -79,6 +86,12 @@ int main(int argc, char *argv[]) {
     /* Allocate memory for num_cell ints. */
     cells = (int *)malloc(num_cells * sizeof(int));
 
+    /* Check if malloc failed. */
+    if (cells == NULL) {
+        fprintf(stderr, "Error: malloc() failed.\n");
+        exit(1);  /* Give up, abort program. */
+    }
+
     /* Intialize random number generator. */
     srand(time(NULL));
 
@@ -98,5 +111,7 @@ int main(int argc, char *argv[]) {
     }
 
     free(cells);
+
+    print_memory_leaks();
     return 0;
 }

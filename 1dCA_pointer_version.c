@@ -19,20 +19,27 @@ int print_row(int *cells, int num_cells);
 int * update(int *cells, int num_cells) {
     int i;
     int *temp;
+    int *prev;
+    int *next;
     temp = (int *) calloc(num_cells, sizeof(int));
+    prev = cells;
+    next = cells;
 
     /* Make first cell random. */
-    *temp = rand() % 2;
-    temp ++;
+    temp[0] = rand() % 2;
 
+    /* cells needs to start at 2nd cell. */
     cells ++;
+    /* next needs to start at 3rd cell. */
+    next ++;
+    next ++;
 
     /* Fill in the reset of the next generation by the given pattern. */    
     for(i = 1; i < num_cells; i ++) {
         if(*cells == 0) {
-            if((*(cells - 1) == 1) & (*(cells + 1) == 0)) {
+            if((*(prev) == 1) & (*(next) == 0)) {
                 temp[i] = 1;
-            } else if((*(cells - 1) == 0) & (*(cells + 1) == 1)) {
+            } else if((*(prev) == 0) & (*(next) == 1)) {
                 temp[i] = 1;
             } else {
                 temp[i] = 0;
@@ -41,8 +48,9 @@ int * update(int *cells, int num_cells) {
             temp[i] = 0;
         }
         cells ++;
+        prev ++;
+        next ++;
     }
-
     return temp;
 }
 
@@ -96,12 +104,12 @@ int main(int argc, char *argv[]) {
     for(i = 1; i < num_cells - 1; i ++) {
         cells[i] = rand() % 2;
     }
-    print_row(cells, num_cells);
 
     for(i = 0; i < num_generations; i ++) {
         cells = update(cells, num_cells);
         print_row(cells, num_cells);
     }
-
+    
+    print_memory_leaks();
     return 0;
 }
